@@ -16,7 +16,13 @@ connectDB();
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: ["https://electrical-backend.vercel.app"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
