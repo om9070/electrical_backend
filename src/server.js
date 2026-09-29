@@ -16,13 +16,30 @@ connectDB();
 const app = express();
 
 // Middlewares
+const allowedOrigins = [
+  "https://electrical-website-five.vercel.app",
+  "http://localhost:3000",
+];
+
 app.use(
   cors({
-    origin: ["https://electrical-backend.vercel.app"],
+    origin: function (origin, callback) {
+
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
